@@ -56,23 +56,29 @@ export const constantRoutes = [
   },
 
   {
-    path: '/example',
+    path: '/template',
     component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'example' },
+    redirect: '/template/notgovuextable',
+    name: 'Template',
+    meta: { title: '组件模板', icon: 'example' },
     children: [
       {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
+        path: 'notgovuextable',
+        name: 'NotGoVuexTable',
+        component: () => import('@/views/template/Table/NotGoVuexTable'),
+        meta: { title: 'table交互不走vuex', icon: 'table' }
       },
       {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
+        path: 'govuextable',
+        name: 'GoVuexTable',
+        component: () => import('@/views/template/Table/GoVuexTable'),
+        meta: { title: 'table交互走vuex', icon: 'table' }
+      },
+      {
+        path: 'radiodeletetable',
+        name: 'RadioDeleteTable',
+        component: () => import('@/views/template/Table/RadioDeleteTable'),
+        meta: { title: 'table单选删除', icon: 'table' }
       }
     ]
   },
