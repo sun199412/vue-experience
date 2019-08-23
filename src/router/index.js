@@ -85,6 +85,12 @@ export const constantRoutes = [
         name: 'CheckboxDeleteTable',
         component: () => import('@/views/template/Table/CheckboxDeleteTable'),
         meta: { title: 'table多选删除', icon: 'table' }
+      },
+      {
+        path: 'editable',
+        name: 'Editable',
+        component: () => import('@/views/template/Table/Editable'),
+        meta: { title: '可编辑表格校验', icon: 'table' }
       }
     ]
   },
