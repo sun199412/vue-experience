@@ -2,27 +2,24 @@
   <div class="body">
     <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <span>表格的单选删除</span>
+        <span>表格的多选删除</span>
       </div>
       <div class="btnBox">
         <el-button type="primary" size="mini" @click="addList">新增</el-button>
         <el-button type="danger" size="mini" @click="deleteItem">删除</el-button>
       </div>
       <el-table
+        ref="table"
         :data="data"
         border
         style="width: 100%"
         @row-click="getRowData"
+        @selection-change="handleSelectionChange"
       >
-        <el-table-column label width="65">
-          <template slot-scope="scope">
-            <el-radio
-              v-model="rowNo"
-              :label="scope.row.id"
-              @change.native="getTemplateRow(scope.$index,scope.row)"
-            >&nbsp;</el-radio>
-          </template>
-        </el-table-column>
+        <el-table-column
+          type="selection"
+          width="55"
+        />
         <el-table-column
           prop="projectType"
           label="项目类别"
@@ -91,11 +88,11 @@
 <script>
 import { getList } from '@/api/template/table/table.js'
 export default {
-  name: 'RadioDeleteTable',
+  name: 'CheckboxDeleteTable',
   data() {
     return {
       data: [], // 数据源
-      rowNo: '', // 选中的数据
+      rowNo: [], // 选中的数据
       rowData: {} // 当前行
     }
   },
@@ -111,15 +108,23 @@ export default {
     })
   },
   methods: {
-    // 选中的当前行
-    getTemplateRow(index, row) {
-      this.rowData = row
-      this.rowNo = row.id
-    },
     // 点击当前行
     getRowData(row, column, event) {
-      this.rowData = row
-      this.rowNo = row.id
+      if (this.rowNo.length !== 0) {
+        this.rowNo.forEach((item, index) => {
+          if (item.id === row.id) {
+            this.$refs['table'].toggleRowSelection(row, false)
+          } else {
+            this.$refs['table'].toggleRowSelection(row, true)
+          }
+        })
+      } else {
+        this.$refs['table'].toggleRowSelection(row, true)
+      }
+    },
+    // 选中复选框
+    handleSelectionChange(val) {
+      this.rowNo = val
     },
     // 新增
     addList() {
@@ -130,10 +135,12 @@ export default {
     },
     // 删除
     deleteItem() {
-      this.data.forEach((item, index)=>{
-        if(item.id === this.rowData.id){
-          this.data.splice(index, 1)
-        }
+      this.data.forEach((item, index) => {
+        this.rowNo.forEach(it => {
+          if (item.id === it.id) {
+            this.data.splice(it, 1)
+          }
+        })
       })
     }
   }

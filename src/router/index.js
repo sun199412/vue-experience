@@ -79,6 +79,12 @@ export const constantRoutes = [
         name: 'RadioDeleteTable',
         component: () => import('@/views/template/Table/RadioDeleteTable'),
         meta: { title: 'table单选删除', icon: 'table' }
+      },
+      {
+        path: 'checkboxdeletetable',
+        name: 'CheckboxDeleteTable',
+        component: () => import('@/views/template/Table/CheckboxDeleteTable'),
+        meta: { title: 'table多选删除', icon: 'table' }
       }
     ]
   },
