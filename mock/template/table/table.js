@@ -7,7 +7,7 @@ const data = [
     'reportMonth': 8,
     'state': '3',
     'childDistrictInfoId': '068fb2617215465194ec1c261ab99df7',
-    'projectType': 'projectType_05',
+    'projectType': 'projectType_01',
     'projectTypeValue': '城市水系',
     'projectName': '1',
     'projectLocaltion': '1',
@@ -34,7 +34,7 @@ const data = [
     'reportMonth': 8,
     'state': '3',
     'childDistrictInfoId': '068fb2617215465194ec1c261ab99df7',
-    'projectType': 'projectType_07',
+    'projectType': 'projectType_04',
     'projectTypeValue': '其他',
     'projectName': '操蛋',
     'projectLocaltion': '电车',
@@ -55,17 +55,96 @@ const data = [
   }
 ]
 
+const project = {
+  'content': [
+    {
+      'id': '0001',
+      'label': '城市',
+      'value': 'projectType_01',
+      'sort': '1'
+    },
+    {
+      'id': '0002',
+      'label': '农村',
+      'value': 'projectType_02',
+      'sort': '2'
+    },
+    {
+      'id': '0003',
+      'label': '花园',
+      'value': 'projectType_03',
+      'sort': '3'
+    },
+    {
+      'id': '0004',
+      'label': '洋房',
+      'value': 'projectType_04',
+      'sort': '4'
+    }
+  ]
+}
+
+const state = {
+  'content': [
+    {
+      "id":1543,
+      "label":"前期",
+      "value":"project_state_01",
+      "sort":"1"
+    },
+    {
+      "id":1548,
+      "label":"在建",
+      "value":"project_state_02",
+      "sort":"2"
+    },
+    {
+      "id":1551,
+      "label":"完工",
+      "value":"project_state_03",
+      "sort":"3"
+    }
+  ]
+}
+
 export default [
   {
     url: '/template/table/list',
+    type: 'post',
+    response: config => {
+      return {
+        code: 20000,
+        data: {
+          Total: data.length,
+          RetList: data
+        }
+      }
+    }
+  },
+  {
+    url: '/template/dic/project',
     type: 'post',
     response: config => {
       console.log('config', config.body)
       return {
         code: 20000,
         data: {
-          Total: data.length,
-          RetList: data
+          Total: project.content.length,
+          ResPonseBody: project
+        }
+      }
+    }
+  },
+  {
+    url: '/template/dic/state',
+    type: 'post',
+    response: config => {
+      console.log('config', config.body)
+      return {
+        code: 20000,
+        data: {
+          Total: state.content.length,
+          ResPonseBody: state
         }
       }
     }
