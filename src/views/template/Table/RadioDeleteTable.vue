@@ -95,8 +95,8 @@ export default {
   data() {
     return {
       data: [], // 数据源
-      rowNo: '', // 选中的数据
-      rowData: {} // 当前行
+      rowNo: '', // 单选框绑定的数据
+      rowData: {} // 选中当前行
     }
   },
   created() {
@@ -142,7 +142,7 @@ export default {
 
 <style lang="scss" scoped>
 .btnBox{
-  margin-bottom: 20px;
+  margin-bottom: 21px;
   text-align: right;
 }
 </style>

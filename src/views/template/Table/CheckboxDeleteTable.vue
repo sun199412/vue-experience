@@ -92,8 +92,8 @@ export default {
   data() {
     return {
       data: [], // 数据源
-      rowNo: [], // 选中的数据
-      rowData: {} // 当前行
+      rowNo: [], // 复选框选中的数据
+      rowData: {} // 选中的当前行
     }
   },
   created() {
@@ -110,17 +110,7 @@ export default {
   methods: {
     // 点击当前行
     getRowData(row, column, event) {
-      if (this.rowNo.length !== 0) {
-        this.rowNo.forEach((item, index) => {
-          if (item.id === row.id) {
-            this.$refs['table'].toggleRowSelection(row, false)
-          } else {
-            this.$refs['table'].toggleRowSelection(row, true)
-          }
-        })
-      } else {
-        this.$refs['table'].toggleRowSelection(row, true)
-      }
+      this.$refs['table'].toggleRowSelection(row)
     },
     // 选中复选框
     handleSelectionChange(val) {
@@ -149,7 +139,7 @@ export default {
 
 <style lang="scss" scoped>
 .btnBox{
-  margin-bottom: 20px;
+  margin-bottom: 21px;
   text-align: right;
 }
 </style>

@@ -332,7 +332,7 @@ export default {
       formData: {
         list: [] // 数据源
       },
-      rowData: {}, // 当前行
+      rowData: {}, // 选中的当前行
       projectList: [], // 项目类别
       stateList: [] // 形象进度
     }
@@ -417,7 +417,7 @@ export default {
 
 <style lang="scss" scoped>
 .btnBox{
-  margin-bottom: 20px;
+  margin-bottom: 21px;
   text-align: right;
 }
 .el-date-editor.el-input, .el-date-editor.el-input__inner{

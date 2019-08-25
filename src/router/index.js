@@ -58,45 +58,79 @@ export const constantRoutes = [
   {
     path: '/template',
     component: Layout,
-    redirect: '/template/notgovuextable',
+    redirect: '/template/table',
     name: 'Template',
     meta: { title: '组件模板', icon: 'example' },
     children: [
       {
-        path: 'notgovuextable',
-        name: 'NotGoVuexTable',
-        component: () => import('@/views/template/Table/NotGoVuexTable'),
-        meta: { title: 'table交互不走vuex', icon: 'table' }
+        path: 'table',
+        name: 'Table',
+        component: () => import('@/views/template/Table'),
+        meta: { title: '表格', icon: 'table' },
+        children: [
+          {
+            path: 'notgovuextable',
+            name: 'NotGoVuexTable',
+            component: () => import('@/views/template/Table/NotGoVuexTable'),
+            meta: { title: 'table交互不走vuex' }
+          },
+          {
+            path: 'govuextable',
+            name: 'GoVuexTable',
+            component: () => import('@/views/template/Table/GoVuexTable'),
+            meta: { title: 'table交互走vuex' }
+          },
+          {
+            path: 'radiodeletetable',
+            name: 'RadioDeleteTable',
+            component: () => import('@/views/template/Table/RadioDeleteTable'),
+            meta: { title: 'table单选删除' }
+          },
+          {
+            path: 'checkboxdeletetable',
+            name: 'CheckboxDeleteTable',
+            component: () => import('@/views/template/Table/CheckboxDeleteTable'),
+            meta: { title: 'table多选删除' }
+          },
+          {
+            path: 'editable',
+            name: 'Editable',
+            component: () => import('@/views/template/Table/Editable'),
+            meta: { title: '可编辑表格校验' }
+          },
+          {
+            path: 'customchecktable',
+            name: 'CustomCheckTable',
+            component: () => import('@/views/template/Table/CustomCheckTable'),
+            meta: { title: '表格自定义校验' }
+          },
+          {
+            path: 'customchecktable2',
+            name: 'CustomCheckTable2',
+            component: () => import('@/views/template/Table/CustomCheckTable2'),
+            meta: { title: '表格自定义校验2' }
+          }
+        ]
       },
       {
-        path: 'govuextable',
-        name: 'GoVuexTable',
-        component: () => import('@/views/template/Table/GoVuexTable'),
-        meta: { title: 'table交互走vuex', icon: 'table' }
-      },
-      {
-        path: 'radiodeletetable',
-        name: 'RadioDeleteTable',
-        component: () => import('@/views/template/Table/RadioDeleteTable'),
-        meta: { title: 'table单选删除', icon: 'table' }
-      },
-      {
-        path: 'checkboxdeletetable',
-        name: 'CheckboxDeleteTable',
-        component: () => import('@/views/template/Table/CheckboxDeleteTable'),
-        meta: { title: 'table多选删除', icon: 'table' }
-      },
-      {
-        path: 'editable',
-        name: 'Editable',
-        component: () => import('@/views/template/Table/Editable'),
-        meta: { title: '可编辑表格校验', icon: 'table' }
-      },
-      {
-        path: 'customchecktable',
-        name: 'CustomCheckTable',
-        component: () => import('@/views/template/Table/CustomCheckTable'),
-        meta: { title: '表格自定义校验', icon: 'table' }
+        path: 'other',
+        name: 'Other',
+        component: () => import('@/views/template/Other'),
+        meta: { title: '其他', icon: 'eye' },
+        children: [
+          {
+            path: 'computedtoparams',
+            name: 'ComputedToParams',
+            component: () => import('@/views/template/Other/ComputedToParams'),
+            meta: { title: '计算属性传参数' }
+          },
+          {
+            path: 'selectdisabled',
+            name: 'SelectDisabled',
+            component: () => import('@/views/template/Other/SelectDisabled'),
+            meta: { title: '下拉框禁止选' }
+          }
+        ]
       }
     ]
   },

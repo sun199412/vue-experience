@@ -324,3 +324,225 @@ npm run build:prod
     })
   }
 ```
+
+## [表格自定义校验](https://github.com/sun199412/vue-experience/blob/master/src/views/template/Table/CustomCheckTable.vue)
+
+1. 通过给表单加入blur方法，来校验并修改值
+```
+  <el-table-column
+    label="汇水面积（平方米）"
+    width="150"
+  >
+    <template slot-scope="scope">
+      <el-form-item
+        :prop="'list.'+scope.$index+'.catchmentArea'"
+        :rules="[
+          {
+            required: true,
+            message: '请输入',
+            trigger: 'blur'
+          },
+        ]"
+      >
+        <el-input
+          v-model="scope.row.catchmentArea"
+          size="mini"
+          @blur="(value)=>getParseFloat(value, scope.$index, 'catchmentArea')"
+        />
+      </el-form-item>
+    </template>
+  </el-table-column>
+
+  // 校验汇水面积，总投资额，完成投资额
+  getParseFloat(e, index, item) {
+    // 对完成投资额的非负数校验
+    const reg = /^([1-9]\d*|0)(\.\d*[1-9])?$/
+    if (!reg.test(e.target.value)) {
+      this.$set(this.formData.list[index], item, '')
+    } else {
+      const num = this.formData.list[index][item]
+      this.$set(this.formData.list[index], item, Number(num).toFixed(2))
+    }
+  },
+```
+
+## [表格自定义校验2](https://github.com/sun199412/vue-experience/blob/master/src/views/template/Table/CustomCheckTable2.vue)
+
+1. 标准的自定义校验，通过rules里的validate方法来校验
+```
+  <el-table-column
+    label="总投资（万）"
+    width="150"
+  >
+    <template slot-scope="scope">
+      <el-form-item
+        :prop="'list.'+scope.$index+'.totalInvestment'"
+        :rules="[
+          {
+            validator: (rule, value, callback)=>{getParseFloat(rule, value, callback)},
+            trigger: ['blur']
+          }
+        ]"
+      >
+        <el-input
+          v-model="scope.row.totalInvestment"
+          size="mini"
+        />
+      </el-form-item>
+    </template>
+  </el-table-column>
+
+  // 校验非负数
+  getParseFloat(rule, value, callback) {
+    // 对完成投资额的非负数校验
+    const reg = /^([1-9]\d*|0)(\.\d*[1-9])?$/
+    if (!value) {
+      callback('请输入')
+    }
+    if (!reg.test(value)) {
+      callback('输入内容不合法')
+    }
+    callback()
+  },
+```
+
+## [计算属性传参数](https://github.com/sun199412/vue-experience/blob/master/src/views/template/Other/ComputedToParams.vue)
+
+1. 需求: 形象进度，历史数据里如果是完工则不能选在建或者前期，不是历史数据就是都可以选
+
+2. 定义属性projectStateList，并传入当前行和当前下标，在computed里，通过闭包形式接收
+```
+  <el-table-column
+    prop="projectState"
+    label="形象进度"
+  >
+    <template slot-scope="scope">
+      <el-form-item
+        :prop="'list.'+scope.$index+'.projectState'"
+        :rules="[
+          {
+            required: true,
+            message: '请选择',
+            trigger: 'change'
+          },
+        ]"
+      >
+        <el-select
+          v-model="scope.row.projectState"
+          placeholder="请选择"
+          size="small"
+        >
+          <el-option
+            v-for="item in projectStateList(scope.$index, scope.row)"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
+      </el-form-item>
+    </template>
+  </el-table-column>
+
+  computed: {
+    projectStateList: function() {
+      // 计算属性传参数
+      return (index, row) => this.getProjectState(index, row)
+    }
+  },
+```
+
+3. 通过判断有没有id来确定是否为历史数据，
+```
+  // 计算形象进度展示
+  getProjectState(index, row) {
+    // 如果是历史数据
+    if (row.id) {
+      if (row.projectState === 'project_state_03') {
+        const arr = []
+        this.stateList.forEach(item => {
+          if (row.projectState === item.value) {
+            arr.push(item)
+          }
+        })
+        return arr
+      } else {
+        return this.stateList
+      }
+    } else {
+      return this.stateList
+    }
+  },
+```
+
+## [下拉框禁用](https://github.com/sun199412/vue-experience/blob/master/src/views/template/Other/SelectDisabled.vue)
+
+1. 需求: 形象进度，历史数据里如果是完工则不能选在建或者前期，不是历史数据就是都可以选
+
+2. 定义属性projectStateList，并传入当前行和当前下标，在computed里，通过闭包形式接收
+```
+  <el-table-column
+    prop="projectState"
+    label="形象进度"
+  >
+    <template slot-scope="scope">
+      <el-form-item
+        :prop="'list.'+scope.$index+'.projectState'"
+        :rules="[
+          {
+            required: true,
+            message: '请选择',
+            trigger: 'change'
+          },
+        ]"
+      >
+        <el-select
+          v-model="scope.row.projectState"
+          placeholder="请选择"
+          size="small"
+        >
+          <el-option
+            v-for="item in projectStateList(scope.$index, scope.row)"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+            :disabled="item.disabled"
+          />
+        </el-select>
+      </el-form-item>
+    </template>
+  </el-table-column>
+
+  computed: {
+    projectStateList: function() {
+      // 计算属性传参数
+      return (index, row) => this.getProjectState(index, row)
+    }
+  },
+```
+
+3. 给数据源对应的对象添加disabled: true的键值对，再设置的option的disabled属性
+```
+  // 计算下拉框的展示
+  getProjectState(index, row) {
+    // 如果是历史数据
+    if (row.id) {
+      this.stateList.forEach(item => {
+        if (row.projectState === 'project_state_03') {
+          if (row.projectState === item.value) {
+            item.disabled = false
+          } else {
+            item.disabled = true
+          }
+        } else {
+          item.disabled = false
+        }
+      })
+      return this.stateList
+    } else {
+      this.stateList.forEach(item => {
+        item.disabled = false
+      })
+      return this.stateList
+    }
+  },
+```

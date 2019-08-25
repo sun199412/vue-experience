@@ -76,6 +76,7 @@
 
 <script>
 export default {
+  name: 'GoVuexTable',
   data() {
     return {
       data: []

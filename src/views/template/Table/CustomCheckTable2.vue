@@ -102,16 +102,14 @@
                 :prop="'list.'+scope.$index+'.catchmentArea'"
                 :rules="[
                   {
-                    required: true,
-                    message: '请输入',
-                    trigger: 'blur'
-                  },
+                    validator: (rule, value, callback)=>{getParseFloat(rule, value, callback)},
+                    trigger: ['blur']
+                  }
                 ]"
               >
                 <el-input
                   v-model="scope.row.catchmentArea"
                   size="mini"
-                  @blur="(value)=>getParseFloat(value, scope.$index, 'catchmentArea')"
                 />
               </el-form-item>
             </template>
@@ -125,16 +123,14 @@
                 :prop="'list.'+scope.$index+'.totalInvestment'"
                 :rules="[
                   {
-                    required: true,
-                    message: '请输入',
-                    trigger: 'blur'
-                  },
+                    validator: (rule, value, callback)=>{getParseFloat(rule, value, callback)},
+                    trigger: ['blur']
+                  }
                 ]"
               >
                 <el-input
                   v-model="scope.row.totalInvestment"
                   size="mini"
-                  @blur="(value)=>getParseFloat(value, scope.$index, 'totalInvestment')"
                 />
               </el-form-item>
             </template>
@@ -149,16 +145,14 @@
                 :prop="'list.'+scope.$index+'.finishedInvestment'"
                 :rules="[
                   {
-                    required: true,
-                    message: '请输入',
-                    trigger: 'blur'
-                  },
+                    validator: (rule, value, callback)=>{getParseFloatFinishedInvestment(rule, value, callback, scope.$index)},
+                    trigger: ['blur']
+                  }
                 ]"
               >
                 <el-input
                   v-model="scope.row.finishedInvestment"
                   size="mini"
-                  @blur="(value)=>getParseFloatFinishedInvestment(value, scope.$index, 'finishedInvestment')"
                 />
               </el-form-item>
             </template>
@@ -248,16 +242,14 @@
                 :prop="'list.'+scope.$index+'.teleNum'"
                 :rules="[
                   {
-                    required: true,
-                    message: '请输入',
-                    trigger: 'blur'
-                  },
+                    validator: (rule, value, callback)=>{getTel(rule, value, callback)},
+                    trigger: ['blur']
+                  }
                 ]"
               >
                 <el-input
                   v-model="scope.row.teleNum"
                   size="mini"
-                  @blur="(e)=>getTel(e, scope.$index, 'teleNum')"
                 />
               </el-form-item>
             </template>
@@ -409,36 +401,40 @@ export default {
       this.formData.list.splice(index, 1)
     },
     // 校验电话
-    getTel(e, index, item) {
+    getTel(rule, value, callback) {
       const reg = /^[1-9]\d*$/
-      if (!reg.test(e.target.value)) {
-        this.$set(this.formData.list[index], item, '')
+      if (!value) {
+        callback('请输入')
       }
+      if (!reg.test(value)) {
+        callback('输入内容不合法')
+      }
+      callback()
     },
-    // 校验汇水面积，总投资额，完成投资额
-    getParseFloat(e, index, item) {
+    // 校验非负数
+    getParseFloat(rule, value, callback) {
       // 对完成投资额的非负数校验
       const reg = /^([1-9]\d*|0)(\.\d*[1-9])?$/
-      if (!reg.test(e.target.value)) {
-        this.$set(this.formData.list[index], item, '')
-      } else {
-        const num = this.formData.list[index][item]
-        this.$set(this.formData.list[index], item, Number(num).toFixed(2))
+      if (!value) {
+        callback('请输入')
       }
+      if (!reg.test(value)) {
+        callback('输入内容不合法')
+      }
+      callback()
     },
+
     // 校验完成投资额
-    getParseFloatFinishedInvestment(e, index, item) {
+    getParseFloatFinishedInvestment(rule, value, callback, index) {
       const reg = /^([1-9]\d*|0)(\.\d*[1-9])?$/
       // 匹配正则
-      if (!reg.test(e.target.value)) {
-        this.$set(this.formData.list[index], item, '')
+      if (!reg.test(value)) {
+        callback('输入内容不合法')
         // 比较完成投资额与总投资额
-      } else if (Number(this.formData.list[index].totalInvestment) < Number(e.target.value)) {
-        this.$set(this.formData.list[index], item, '')
-      } else {
-        const num = this.formData.list[index][item]
-        this.$set(this.formData.list[index], item, Number(num).toFixed(2))
+      } else if (Number(this.formData.list[index].totalInvestment) < Number(value)) {
+        callback('完成投资不能大于总投资')
       }
+      callback()
     },
     // 保存
     save() {

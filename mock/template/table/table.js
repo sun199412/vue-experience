@@ -14,7 +14,7 @@ const data = [
     'catchmentArea': 1,
     'totalInvestment': 1,
     'finishedInvestment': 1,
-    'projectState': 'project_state_02',
+    'projectState': 'project_state_01',
     'projectStateValue': '在建',
     'buildComp': '阿萨德',
     'contacts': '迁安市多',
@@ -41,7 +41,7 @@ const data = [
     'catchmentArea': 36666,
     'totalInvestment': 12121,
     'finishedInvestment': 456,
-    'projectState': 'project_state_02',
+    'projectState': 'project_state_03',
     'projectStateValue': '在建',
     'buildComp': '操蛋',
     'contacts': '操蛋',
@@ -87,22 +87,22 @@ const project = {
 const state = {
   'content': [
     {
-      "id":1543,
-      "label":"前期",
-      "value":"project_state_01",
-      "sort":"1"
+      'id': 1543,
+      'label': '前期',
+      'value': 'project_state_01',
+      'sort': '1'
     },
     {
-      "id":1548,
-      "label":"在建",
-      "value":"project_state_02",
-      "sort":"2"
+      'id': 1548,
+      'label': '在建',
+      'value': 'project_state_02',
+      'sort': '2'
     },
     {
-      "id":1551,
-      "label":"完工",
-      "value":"project_state_03",
-      "sort":"3"
+      'id': 1551,
+      'label': '完工',
+      'value': 'project_state_03',
+      'sort': '3'
     }
   ]
 }
