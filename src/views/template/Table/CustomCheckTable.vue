@@ -2,7 +2,7 @@
   <div class="body">
     <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <span>可编辑表格校验</span>
+        <span>表格自定义校验</span>
       </div>
       <div class="btnBox">
         <el-button type="primary" size="mini" @click="addList">新增</el-button>
@@ -111,6 +111,7 @@
                 <el-input
                   v-model="scope.row.catchmentArea"
                   size="mini"
+                  @blur="(value)=>getParseFloat(value, scope.$index, 'catchmentArea')"
                 />
               </el-form-item>
             </template>
@@ -133,6 +134,7 @@
                 <el-input
                   v-model="scope.row.totalInvestment"
                   size="mini"
+                  @blur="(value)=>getParseFloat(value, scope.$index, 'totalInvestment')"
                 />
               </el-form-item>
             </template>
@@ -156,6 +158,7 @@
                 <el-input
                   v-model="scope.row.finishedInvestment"
                   size="mini"
+                  @blur="(value)=>getParseFloatFinishedInvestment(value, scope.$index, 'finishedInvestment')"
                 />
               </el-form-item>
             </template>
@@ -254,6 +257,7 @@
                 <el-input
                   v-model="scope.row.teleNum"
                   size="mini"
+                  @blur="(e)=>getTel(e, scope.$index, 'teleNum')"
                 />
               </el-form-item>
             </template>
@@ -320,6 +324,13 @@
         </el-table>
       </el-form>
     </el-card>
+    <ol>
+      需求:
+      <li>电话只能为正整数</li>
+      <li>汇水面积，总投资，完成投资必须为数字且保留两位小数，不能为负数</li>
+      <li>总投资额大于完成投资额</li>
+      <li>所有表单都为必输</li>
+    </ol>
   </div>
 </template>
 
@@ -388,11 +399,46 @@ export default {
     addList() {
       const obj = {}
       obj.id = Math.random()
+      obj.catchmentArea = '0'
+      obj.totalInvestment = '0'
+      obj.finishedInvestment = '0'
       this.formData.list.push(obj)
     },
     // 删除
     deleteItem(index) {
       this.formData.list.splice(index, 1)
+    },
+    // 校验电话
+    getTel(e, index, item) {
+      const reg = /^[1-9]\d*$/
+      if (!reg.test(e.target.value)) {
+        this.$set(this.formData.list[index], item, '')
+      }
+    },
+    // 校验汇水面积，总投资额，完成投资额
+    getParseFloat(e, index, item) {
+      // 对完成投资额的非负数校验
+      const reg = /^([1-9]\d*|0)(\.\d*[1-9])?$/
+      if (!reg.test(e.target.value)) {
+        this.$set(this.formData.list[index], item, '')
+      } else {
+        const num = this.formData.list[index][item]
+        this.$set(this.formData.list[index], item, Number(num).toFixed(2))
+      }
+    },
+    // 校验完成投资额
+    getParseFloatFinishedInvestment(e, index, item) {
+      const reg = /^([1-9]\d*|0)(\.\d*[1-9])?$/
+      // 匹配正则
+      if (!reg.test(e.target.value)) {
+        this.$set(this.formData.list[index], item, '')
+        // 比较完成投资额与总投资额
+      } else if (Number(this.formData.list[index].totalInvestment) < Number(e.target.value)) {
+        this.$set(this.formData.list[index], item, '')
+      } else {
+        const num = this.formData.list[index][item]
+        this.$set(this.formData.list[index], item, Number(num).toFixed(2))
+      }
     },
     // 保存
     save() {
@@ -422,5 +468,13 @@ export default {
 }
 .el-date-editor.el-input, .el-date-editor.el-input__inner{
   width: 100%;
+}
+ol{
+  background: #fff;
+  font-size: 18px;
+  color:red;
+  li {
+    margin: 5px 0;
+  }
 }
 </style>

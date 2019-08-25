@@ -91,6 +91,12 @@ export const constantRoutes = [
         name: 'Editable',
         component: () => import('@/views/template/Table/Editable'),
         meta: { title: '可编辑表格校验', icon: 'table' }
+      },
+      {
+        path: 'customchecktable',
+        name: 'CustomCheckTable',
+        component: () => import('@/views/template/Table/CustomCheckTable'),
+        meta: { title: '表格自定义校验', icon: 'table' }
       }
     ]
   },

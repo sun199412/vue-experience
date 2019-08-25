@@ -130,8 +130,8 @@ export default {
     },
     // 删除
     deleteItem() {
-      this.data.forEach((item, index)=>{
-        if(item.id === this.rowData.id){
+      this.data.forEach((item, index) => {
+        if (item.id === this.rowData.id) {
           this.data.splice(index, 1)
         }
       })
