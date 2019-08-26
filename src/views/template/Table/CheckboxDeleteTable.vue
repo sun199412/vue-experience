@@ -125,13 +125,15 @@ export default {
     },
     // 删除
     deleteItem() {
-      this.data.forEach((item, index) => {
-        this.rowNo.forEach(it => {
-          if (item.id === it.id) {
-            this.data.splice(it, 1)
-          }
+      if (this.rowNo.length !== 0) {
+        this.rowNo.forEach((item, index) => {
+          this.data.forEach((item1, index1) => {
+            if (item.id === item1.id) {
+              this.data.splice(index1, 1)
+            }
+          })
         })
-      })
+      }
     }
   }
 }
