@@ -130,19 +130,23 @@ export default {
     },
     // 删除
     deleteItem() {
-      if(JSON.stringify(this.rowData) === '{}') {
+      if (JSON.stringify(this.rowData) === '{}') {
         this.$message({
           type: 'error',
           message: '请选择一条数据'
         })
         return
       }
-      this.data.forEach((item, index) => {
-        if (item.id === this.rowData.id) {
-          this.data.splice(index, 1)
-        }
+      this.$confirm('确认删除该记录吗?', '提示', {
+        type: 'warning'
+      }).then(() => {
+        this.data.forEach((item, index) => {
+          if (item.id === this.rowData.id) {
+            this.data.splice(index, 1)
+          }
+        })
+        this.rowData = {}
       })
-      this.rowData = {}
     }
   }
 }

@@ -415,7 +415,6 @@ export default [
       return {
         code: 20000,
         data: {
-          Total: data.length,
           RetList: data
         }
       }
@@ -428,7 +427,10 @@ export default [
       return {
         code: 20000,
         data: {
-          RetList: paginations
+          RetList: paginations,
+          pageSize: 10,
+          pageNo: 1,
+          total: paginations.length
         }
       }
     }

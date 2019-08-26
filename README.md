@@ -717,3 +717,127 @@ childrenTwo.vue里:
     })
   }
 ```
+
+## [前端分页](https://github.com/sun199412/vue-experience/blob/master/src/views/template/Other/Pagination.vue)
+
+1. 使用element的分页组件，再在data里，定义currentPage， totalPage， pageSize， currentPageData4个变量
+```
+  <el-pagination
+    :current-page="currentPage"
+    :page-sizes="[10, 20, 50]"
+    layout="total, sizes, prev, pager, next, jumper"
+    :total="data.length"
+    @size-change="handleSizeChange"
+    @current-change="handleCurrentChange"
+  />
+
+  data() {
+    return {
+      data: [],
+      currentPage: 1, // 当前页，默认1
+      totalPage: 1, // 总共多少页，默认1
+      pageSize: 10, // 每页显示数量
+      currentPageData: [] // 当前页显示内容
+    }
+  },
+```
+
+2. 在created初始化的时候计算每页对应的数据
+```
+  created() {
+    const params = {
+      id: '001'
+    }
+    // 引入封装的axios接口地址
+    getPaginationList(params).then(res => {
+      if (res.code === 20000) {
+        this.data = res.data.RetList
+        // 计算一共多少页
+        this.totalPage = Math.ceil(this.data.length / this.pageSize)
+        // 计算=0时设置为1
+        this.totalPage = this.totalPage === 0 ? 1 : this.totalPage
+        // 获取当页的数据
+        this.getCurrentPageData()
+      }
+    })
+  },
+
+  // 选中不同的每页条数
+  handleSizeChange(val) {
+    console.log(`每页 ${val} 条`)
+  },
+  // 页码改变的时候触发
+  handleCurrentChange(val) {
+    console.log(`当前页: ${val}`)
+    this.currentPage = val
+    this.getCurrentPageData()
+  },
+  // 获取当页的数据
+  getCurrentPageData() {
+    const begin = (this.currentPage - 1) * this.pageSize
+    const end = this.currentPage * this.pageSize
+    this.currentPageData = this.data.slice(begin, end)
+  }
+```
+
+## [后端分页](https://github.com/sun199412/vue-experience/blob/master/src/views/template/Other/Pagination2.vue)
+
+1. 后端分页的核心就是在初始化，size-change，current-change这三个方法里，传入对应的pageNo和pageSize调查询接口
+```
+  <el-pagination
+    :current-page="pageNo"
+    :page-sizes="[10, 20, 50]"
+    :page-size="pageSize"
+    layout="total, sizes, prev, pager, next, jumper"
+    :total="total"
+    @size-change="handleSizeChange"
+    @current-change="handleCurrentChange"
+  />
+
+  data() {
+    return {
+      data: [],
+      pageNo: 1, // 当前页
+      pageSize: 10, // 每页显示数量
+      total: 0 // 总数
+    }
+  },
+
+  created() {
+    const params = {
+      pageNo: 1,
+      pageSize: 10,
+      id: '0001'
+    }
+    this.initData(params)
+  },
+
+  initData(params) {
+    getPaginationList(params).then(res => {
+      if (res.code === 20000) {
+        this.total = res.data.total
+        this.data = res.data.RetList
+        this.pageNo = res.data.pageNo
+        this.pageSize = res.data.pageSize
+      }
+    })
+  },
+  // 选中不同的每页条数
+  handleSizeChange(val) {
+    const params = {
+      pageNo: this.pageNo,
+      pageSize: val,
+      id: '0001'
+    }
+    this.initData(params)
+  },
+  // 页码改变的时候触发
+  handleCurrentChange(val) {
+    const params = {
+      pageNo: val,
+      pageSize: this.pageSize,
+      id: '0001'
+    }
+    this.initData(params)
+  }
+```

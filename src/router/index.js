@@ -123,6 +123,12 @@ export const constantRoutes = [
             name: 'Pagination',
             component: () => import('@/views/template/Other/Pagination'),
             meta: { title: '前端分页' }
+          },
+          {
+            path: 'pagination2',
+            name: 'Pagination2',
+            component: () => import('@/views/template/Other/Pagination2'),
+            meta: { title: '后端分页' }
           }
         ]
       },

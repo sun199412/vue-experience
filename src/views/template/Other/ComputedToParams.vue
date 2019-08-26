@@ -196,7 +196,11 @@ export default {
     },
     // 删除
     deleteItem(index) {
-      this.formData.list.splice(index, 1)
+      this.$confirm('确认删除该记录吗?', '提示', {
+        type: 'warning'
+      }).then(() => {
+        this.formData.list.splice(index, 1)
+      })
     },
     // 计算形象进度展示
     getProjectState(index, row) {

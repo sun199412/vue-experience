@@ -2,24 +2,13 @@
   <div class="body">
     <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <span>表格的多选删除</span>
-      </div>
-      <div class="btnBox">
-        <el-button type="primary" size="mini" @click="addList">新增</el-button>
-        <el-button type="danger" size="mini" @click="deleteItem">删除</el-button>
+        <span>后端分页</span>
       </div>
       <el-table
-        ref="table"
         :data="data"
         border
         style="width: 100%"
-        @row-click="getRowData"
-        @selection-change="handleSelectionChange"
       >
-        <el-table-column
-          type="selection"
-          width="55"
-        />
         <el-table-column
           prop="projectType"
           label="项目类别"
@@ -81,76 +70,72 @@
           width="150"
         />
       </el-table>
+      <el-pagination
+        :current-page="pageNo"
+        :page-sizes="[10, 20, 50]"
+        :page-size="pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      />
     </el-card>
   </div>
 </template>
 
 <script>
-import { getList } from '@/api/template/table/table.js'
+import { getPaginationList } from '@/api/template/table/table.js'
 export default {
-  name: 'CheckboxDeleteTable',
+  name: 'Pagination',
   data() {
     return {
-      data: [], // 数据源
-      rowNo: [], // 复选框选中的数据
-      rowData: {} // 选中的当前行
+      data: [],
+      pageNo: 1, // 当前页
+      pageSize: 10, // 每页显示数量
+      total: 0 // 总数
     }
   },
   created() {
     const params = {
-      id: '001'
+      pageNo: 1,
+      pageSize: 10,
+      id: '0001'
     }
-    // 引入封装的axios接口地址
-    getList(params).then(res => {
-      if (res.code === 20000) {
-        this.data = res.data.RetList
-      }
-    })
+    this.initData(params)
   },
   methods: {
-    // 点击当前行
-    getRowData(row, column, event) {
-      this.$refs['table'].toggleRowSelection(row)
-    },
-    // 选中复选框
-    handleSelectionChange(val) {
-      this.rowNo = val
-    },
-    // 新增
-    addList() {
-      const obj = {}
-      obj.id = Math.random()
-      obj.projectType = Math.random()
-      this.data.push(obj)
-    },
-    // 删除
-    deleteItem() {
-      if (this.rowNo.length === 0) {
-        this.$message({
-          type: 'error',
-          message: '请选择一条数据'
-        })
-        return
-      }
-      this.$confirm('确认删除该记录吗?', '提示', {
-        type: 'warning'
-      }).then(() => {
-        this.rowNo.forEach((item, index) => {
-          this.data.forEach((item1, index1) => {
-            if (item.id === item1.id) {
-              this.data.splice(index1, 1)
-            }
-          })
-        })
+    // 初始化数据
+    initData(params) {
+      getPaginationList(params).then(res => {
+        if (res.code === 20000) {
+          this.total = res.data.total
+          this.data = res.data.RetList
+          this.pageNo = res.data.pageNo
+          this.pageSize = res.data.pageSize
+        }
       })
+    },
+    // 选中不同的每页条数
+    handleSizeChange(val) {
+      const params = {
+        pageNo: this.pageNo,
+        pageSize: val,
+        id: '0001'
+      }
+      this.initData(params)
+    },
+    // 页码改变的时候触发
+    handleCurrentChange(val) {
+      const params = {
+        pageNo: val,
+        pageSize: this.pageSize,
+        id: '0001'
+      }
+      this.initData(params)
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.btnBox{
-  margin-bottom: 21px;
-  text-align: right;
-}
 </style>
