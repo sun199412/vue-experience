@@ -3,12 +3,14 @@ import { param2Obj } from '../src/utils'
 
 import user from './user'
 import table from './table'
+import form from './template/form/form'
 import radiotable from './template/table/table'
 
 const mocks = [
   ...user,
   ...table,
-  ...radiotable
+  ...radiotable,
+  ...form
 ]
 
 // for front mock

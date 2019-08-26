@@ -97,18 +97,6 @@ export const constantRoutes = [
             name: 'Editable',
             component: () => import('@/views/template/Table/Editable'),
             meta: { title: '可编辑表格校验' }
-          },
-          {
-            path: 'customchecktable',
-            name: 'CustomCheckTable',
-            component: () => import('@/views/template/Table/CustomCheckTable'),
-            meta: { title: '表格自定义校验' }
-          },
-          {
-            path: 'customchecktable2',
-            name: 'CustomCheckTable2',
-            component: () => import('@/views/template/Table/CustomCheckTable2'),
-            meta: { title: '表格自定义校验2' }
           }
         ]
       },
@@ -116,7 +104,7 @@ export const constantRoutes = [
         path: 'other',
         name: 'Other',
         component: () => import('@/views/template/Other'),
-        meta: { title: '其他', icon: 'eye' },
+        meta: { title: '其他', icon: 'eye-open' },
         children: [
           {
             path: 'computedtoparams',
@@ -129,6 +117,38 @@ export const constantRoutes = [
             name: 'SelectDisabled',
             component: () => import('@/views/template/Other/SelectDisabled'),
             meta: { title: '下拉框禁止选' }
+          },
+          {
+            path: 'pagination',
+            name: 'Pagination',
+            component: () => import('@/views/template/Other/Pagination'),
+            meta: { title: '前端分页' }
+          }
+        ]
+      },
+      {
+        path: 'check',
+        name: 'Check',
+        component: () => import('@/views/template/Check'),
+        meta: { title: '校验', icon: 'form' },
+        children: [
+          {
+            path: 'customchecktable',
+            name: 'CustomCheckTable',
+            component: () => import('@/views/template/Check/CustomCheckTable'),
+            meta: { title: '表格自定义校验' }
+          },
+          {
+            path: 'customchecktable2',
+            name: 'CustomCheckTable2',
+            component: () => import('@/views/template/Check/CustomCheckTable2'),
+            meta: { title: '表格自定义校验2' }
+          },
+          {
+            path: 'morekidscheck',
+            name: 'MoreKidsCheck',
+            component: () => import('@/views/template/Check/MoreKidsCheck/index'),
+            meta: { title: '多子组件校验和watch的使用' }
           }
         ]
       }

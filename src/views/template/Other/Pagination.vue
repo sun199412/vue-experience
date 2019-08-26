@@ -2,27 +2,13 @@
   <div class="body">
     <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <span>表格的单选删除</span>
-      </div>
-      <div class="btnBox">
-        <el-button type="primary" size="mini" @click="addList">新增</el-button>
-        <el-button type="danger" size="mini" @click="deleteItem">删除</el-button>
+        <span>前端分页</span>
       </div>
       <el-table
-        :data="data"
+        :data="currentPageData"
         border
         style="width: 100%"
-        @row-click="getRowData"
       >
-        <el-table-column label width="65">
-          <template slot-scope="scope">
-            <el-radio
-              v-model="rowNo"
-              :label="scope.row.id"
-              @change.native="getTemplateRow(scope.$index,scope.row)"
-            >&nbsp;</el-radio>
-          </template>
-        </el-table-column>
         <el-table-column
           prop="projectType"
           label="项目类别"
@@ -84,19 +70,29 @@
           width="150"
         />
       </el-table>
+      <el-pagination
+        :current-page="currentPage"
+        :page-sizes="[10, 20, 50]"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="data.length"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      />
     </el-card>
   </div>
 </template>
 
 <script>
-import { getList } from '@/api/template/table/table.js'
+import { getPaginationList } from '@/api/template/table/table.js'
 export default {
-  name: 'RadioDeleteTable',
+  name: 'Pagination',
   data() {
     return {
-      data: [], // 数据源
-      rowNo: '', // 单选框绑定的数据
-      rowData: {} // 选中当前行
+      data: [],
+      currentPage: 1, // 当前页，默认1
+      totalPage: 1, // 总共多少页，默认1
+      pageSize: 10, // 每页显示数量
+      currentPageData: [] // 当前页显示内容
     }
   },
   created() {
@@ -104,53 +100,38 @@ export default {
       id: '001'
     }
     // 引入封装的axios接口地址
-    getList(params).then(res => {
+    getPaginationList(params).then(res => {
       if (res.code === 20000) {
         this.data = res.data.RetList
+        // 计算一共多少页
+        this.totalPage = Math.ceil(this.data.length / this.pageSize)
+        // 计算=0时设置为1
+        this.totalPage = this.totalPage === 0 ? 1 : this.totalPage
+        // 获取当页的数据
+        this.getCurrentPageData()
       }
     })
   },
   methods: {
-    // 选中的当前行
-    getTemplateRow(index, row) {
-      this.rowData = row
-      this.rowNo = row.id
+    // 选中不同的每页条数
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`)
     },
-    // 点击当前行
-    getRowData(row, column, event) {
-      this.rowData = row
-      this.rowNo = row.id
+    // 页码改变的时候触发
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`)
+      this.currentPage = val
+      this.getCurrentPageData()
     },
-    // 新增
-    addList() {
-      const obj = {}
-      obj.id = Math.random()
-      obj.projectType = Math.random()
-      this.data.push(obj)
-    },
-    // 删除
-    deleteItem() {
-      if(JSON.stringify(this.rowData) === '{}') {
-        this.$message({
-          type: 'error',
-          message: '请选择一条数据'
-        })
-        return
-      }
-      this.data.forEach((item, index) => {
-        if (item.id === this.rowData.id) {
-          this.data.splice(index, 1)
-        }
-      })
-      this.rowData = {}
+    // 获取当页的数据
+    getCurrentPageData() {
+      const begin = (this.currentPage - 1) * this.pageSize
+      const end = this.currentPage * this.pageSize
+      this.currentPageData = this.data.slice(begin, end)
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.btnBox{
-  margin-bottom: 21px;
-  text-align: right;
-}
 </style>

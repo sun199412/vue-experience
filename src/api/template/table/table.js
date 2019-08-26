@@ -23,3 +23,11 @@ export function getState(params) {
     params
   })
 }
+// 查询分页列表
+export function getPaginationList(params) {
+  return request({
+    url: '/template/table/pagination',
+    method: 'post',
+    params
+  })
+}

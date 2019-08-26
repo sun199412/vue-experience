@@ -6,7 +6,6 @@
       </div>
       <div class="btnBox">
         <el-button type="primary" size="mini" @click="addList">新增</el-button>
-        <el-button type="primary" size="mini" @click="save">保存</el-button>
       </div>
       <el-form
         ref="tableForm"
@@ -324,40 +323,32 @@
 </template>
 
 <script>
-import { getList, getProject, getState } from '@/api/template/table/table.js'
+import { getProject, getState } from '@/api/template/table/table.js'
 export default {
   name: 'Editable',
+  props: ['list'],
   data() {
     return {
       formData: {
-        list: [] // 数据源
+        list: this.list // 数据源
       },
       rowData: {}, // 选中的当前行
       projectList: [], // 项目类别
       stateList: [] // 形象进度
     }
   },
+  watch: {
+    list: function(newVal, oldVal) {
+      this.formData.list = newVal
+    }
+  },
   created() {
-    // 初始化
-    this.initData()
     // 初始化查询项目类别
     this.initprojectType()
     // 初始化查询形象进度
     this.initProjectState()
   },
   methods: {
-    // 初始化方法
-    initData() {
-      const params = {
-        id: '001'
-      }
-      // 引入封装的axios接口地址
-      getList(params).then(res => {
-        if (res.code === 20000) {
-          this.formData.list = res.data.RetList
-        }
-      })
-    },
     // 初始化查询项目类别
     initprojectType() {
       const params = {
@@ -393,23 +384,6 @@ export default {
     // 删除
     deleteItem(index) {
       this.formData.list.splice(index, 1)
-    },
-    // 保存
-    save() {
-      this.$refs['tableForm'].validate((valid) => {
-        if (valid) {
-          this.$message({
-            type: 'success',
-            message: '保存成功'
-          })
-        } else {
-          this.$message({
-            type: 'error',
-            message: '保存失败'
-          })
-          return false
-        }
-      })
     }
   }
 }

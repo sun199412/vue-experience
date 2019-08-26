@@ -125,15 +125,20 @@ export default {
     },
     // 删除
     deleteItem() {
-      if (this.rowNo.length !== 0) {
-        this.rowNo.forEach((item, index) => {
-          this.data.forEach((item1, index1) => {
-            if (item.id === item1.id) {
-              this.data.splice(index1, 1)
-            }
-          })
+      if(this.rowNo.length === 0) {
+        this.$message({
+          type: 'error',
+          message: '请选择一条数据'
         })
+        return
       }
+      this.rowNo.forEach((item, index) => {
+        this.data.forEach((item1, index1) => {
+          if (item.id === item1.id) {
+            this.data.splice(index1, 1)
+          }
+        })
+      })
     }
   }
 }

@@ -251,6 +251,58 @@ npm run build:prod
 
 ## [表格的多选删除](https://github.com/sun199412/vue-experience/blob/master/src/views/template/Table/CheckboxDeleteTable.vue)
 
+1. 在table里，设置一个单元格，并在table里绑定selection-change方法
+```
+  <el-table
+    ref="table"
+    :data="data"
+    border
+    style="width: 100%"
+    @row-click="getRowData"
+    @selection-change="handleSelectionChange"
+  >
+    <el-table-column
+      type="selection"
+      width="55"
+    />
+
+  data() {
+    return {
+      data: [], // 数据源
+      rowNo: [], // 复选框选中的数据
+      rowData: {} // 选中的当前行
+    }
+  },
+```
+
+2. 设置table的ref，通过toggleRowSelection这个方法设置复选框选中的状态
+```
+  // 点击当前行
+  getRowData(row, column, event) {
+    this.$refs['table'].toggleRowSelection(row)
+  },
+  // 选中复选框
+  handleSelectionChange(val) {
+    this.rowNo = val
+  },
+```
+
+3. 多选删除逻辑，先判断是否有选中的值rowNo，再循环这个rowNo和data,比较他们的id是否相等，相等就删除
+```
+  // 删除
+  deleteItem() {
+    if (this.rowNo.length !== 0) {
+      this.rowNo.forEach((item, index) => {
+        this.data.forEach((item1, index1) => {
+          if (item.id === item1.id) {
+            this.data.splice(index1, 1)
+          }
+        })
+      })
+    }
+  }
+```
+
 
 ## [可编辑表格及校验](https://github.com/sun199412/vue-experience/blob/master/src/views/template/Table/Editable.vue)
 
@@ -545,4 +597,123 @@ npm run build:prod
       return this.stateList
     }
   },
+```
+
+## [多子组件校验和watch的使用](https://github.com/sun199412/vue-experience/blob/master/src/views/template/Check/MoreKidsCheck/index.vue)
+
+1. 在index.vue里，created调完接口后，传给childrenTwo组件，子组件要用watch监听值的改变
+```
+index.vue里:
+
+  <children-two
+    ref="table"
+    :list="data"
+  />
+
+  created() {
+    // 初始化数据
+    this.initData()
+  },
+
+  methods: {
+    initData() {
+      const params = {
+        id: '001'
+      }
+      // 引入封装的axios接口地址
+      getList(params).then(res => {
+        if (res.code === 20000) {
+          this.data = res.data.RetList
+        }
+      })
+    },
+  }
+
+childrenTwo.vue里:
+
+  props: ['list'],
+  data() {
+    return {
+      formData: {
+        list: this.list // 数据源
+      },
+    }
+  },
+
+  watch: {
+    list: function(newVal, oldVal) {
+      this.formData.list = newVal
+    }
+  },
+```
+
+2. 父组件校验每个子组件的form，先给组件设置ref，通过ref来控制,然后每个子组件的校验封装成promise,通过promise.all去校验所有的子组件表单
+```
+  // 校验子组件一
+    checkKidsOne() {
+      return new Promise((resolve, reject) => {
+        this.$refs['form'].$refs['ruleForm'].validate((valid) => {
+          if (valid) {
+            resolve('success')
+          } else {
+            reject('error')
+          }
+        })
+      })
+    },
+    // 校验子组件二
+    checkKidsTwo() {
+      return new Promise((resolve, reject) => {
+        this.$refs['table'].$refs['tableForm'].validate((valid) => {
+          if (valid) {
+            resolve('success')
+          } else {
+            reject('error')
+          }
+        })
+      })
+    },
+    // 保存
+    save() {
+      Promise.all([this.checkKidsOne(), this.checkKidsTwo()]).then(res => {
+        const params = {
+          childOneForm: this.$refs['form'].formData,
+          childTwoList: this.data
+        }
+        console.log('params', JSON.stringify(params))
+        this.$message({
+          type: 'success',
+          message: '保存成功'
+        })
+      }).catch(err => {
+        this.$message({
+          type: 'error',
+          message: err
+        })
+      })
+    }
+```
+
+3. 父组件获取子组件的data: 通过ref拿到
+```
+  // 保存
+  save() {
+    Promise.all([this.checkKidsOne(), this.checkKidsTwo()]).then(res => {
+      // 获取子组件的data
+      const params = {
+        childOneForm: this.$refs['form'].formData,
+        childTwoList: this.data
+      }
+      console.log('params', JSON.stringify(params))
+      this.$message({
+        type: 'success',
+        message: '保存成功'
+      })
+    }).catch(err => {
+      this.$message({
+        type: 'error',
+        message: err
+      })
+    })
+  }
 ```
