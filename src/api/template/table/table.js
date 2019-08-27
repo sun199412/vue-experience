@@ -31,3 +31,11 @@ export function getPaginationList(params) {
     params
   })
 }
+// 新增列表
+export function addList(params) {
+  return request({
+    url: '/template/table/add',
+    method: 'post',
+    params
+  })
+}

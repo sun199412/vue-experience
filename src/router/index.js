@@ -169,7 +169,7 @@ export const constantRoutes = [
             name: 'DialogOne',
             component: () => import('@/views/template/Dialog/DialogOne/index'),
             meta: { title: '一层弹窗' }
-          },
+          }
         ]
       }
     ]

@@ -1,4 +1,4 @@
-const data = [
+const list = [
   {
     'id': 'b5cacf9c11ee4451b59245fa09b7676d',
     'createTime': 1566206166510,
@@ -7,14 +7,14 @@ const data = [
     'reportMonth': 8,
     'state': '3',
     'childDistrictInfoId': '068fb2617215465194ec1c261ab99df7',
-    'projectType': 'projectType_01',
+    'projectType': '城市',
     'projectTypeValue': '城市水系',
     'projectName': '1',
     'projectLocaltion': '1',
     'catchmentArea': 1,
     'totalInvestment': 1,
     'finishedInvestment': 1,
-    'projectState': 'project_state_01',
+    'projectState': '在建',
     'projectStateValue': '在建',
     'buildComp': '阿萨德',
     'contacts': '迁安市多',
@@ -34,14 +34,14 @@ const data = [
     'reportMonth': 8,
     'state': '3',
     'childDistrictInfoId': '068fb2617215465194ec1c261ab99df7',
-    'projectType': 'projectType_04',
+    'projectType': '农村',
     'projectTypeValue': '其他',
     'projectName': '操蛋',
     'projectLocaltion': '电车',
     'catchmentArea': 36666,
     'totalInvestment': 12121,
     'finishedInvestment': 456,
-    'projectState': 'project_state_03',
+    'projectState': '前期',
     'projectStateValue': '在建',
     'buildComp': '操蛋',
     'contacts': '操蛋',
@@ -406,16 +406,29 @@ const paginations = [
     'opsCompany': null
   }
 ]
+let obj = {}
+// 形象进度
+const projectType = ['城市', '农村', '花园', '庄园']
 
 export default [
   {
     url: '/template/table/list',
     type: 'post',
     response: config => {
-      return {
-        code: 20000,
-        data: {
-          RetList: data
+      if (JSON.stringify(obj) === '{}') {
+        return {
+          code: 20000,
+          data: {
+            RetList: list
+          }
+        }
+      } else {
+        list.push(obj)
+        return {
+          code: 20000,
+          data: {
+            RetList: list
+          }
         }
       }
     }
@@ -453,12 +466,35 @@ export default [
     url: '/template/dic/state',
     type: 'post',
     response: config => {
-      console.log('config', config.body)
       return {
         code: 20000,
         data: {
           Total: state.content.length,
           ResPonseBody: state
+        }
+      }
+    }
+  },
+  {
+    url: '/template/table/add',
+    type: 'post',
+    response: config => {
+      console.log(config.query)
+      obj = config.query
+      obj.projectType = projectType[Math.floor(Math.random() * 4)]
+      obj.projectLocaltion = '重庆'
+      obj.totalInvestment = (Math.random() * 100000).toFixed(2).toString()
+      obj.finishedInvestment = (Math.random() * 60000).toFixed(2).toString()
+      obj.buildComp = '重庆'
+      obj.contacts = '张三'
+      obj.teleNum = parseInt(Math.random() * 100000000000)
+      obj.begainDate = new Date()
+      obj.endDate = new Date()
+      obj.id = Math.random()
+      return {
+        code: 20000,
+        data: {
+          message: '新增成功'
         }
       }
     }

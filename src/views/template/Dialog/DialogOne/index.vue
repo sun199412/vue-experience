@@ -6,9 +6,6 @@
       </div>
       <div class="btnBox">
         <el-button type="primary" size="mini" @click="addList">新增</el-button>
-        <el-button type="primary" size="mini" @click="editList">修改</el-button>
-        <el-button type="primary" size="mini" @click="watch">查看</el-button>
-        <el-button type="danger" size="mini" @click="deleteItem">删除</el-button>
       </div>
       <el-table
         :data="data"
@@ -87,35 +84,50 @@
         />
       </el-table>
     </el-card>
+    <Add
+      v-if="visible"
+      ref="addRef"
+      :visible="visible"
+      @changeVisible="updateVisible"
+      @save="saveList"
+    />
   </div>
 </template>
 
 <script>
-import { getList } from '@/api/template/table/table.js'
+import { getList, addList } from '@/api/template/table/table.js'
+import Add from '@/views/template/Dialog/DialogOne/Add'
 export default {
   name: 'DialogOne',
+  components: {
+    Add
+  },
   data() {
     return {
       data: [], // 数据源
       rowNo: '', // 单选框绑定的数据
       rowData: {}, // 选中当前行
-      visible: false, // 弹窗状态
-      isAdd: true, // 是否新增
-      isLook: false, // 是否查看
+      visible: false // 弹窗状态
     }
   },
   created() {
+    // 初始化
     const params = {
       id: '001'
     }
-    // 引入封装的axios接口地址
-    getList(params).then(res => {
-      if (res.code === 20000) {
-        this.data = res.data.RetList
-      }
-    })
+    this.initData(params)
   },
   methods: {
+    // 初始化
+    initData(params) {
+      // 引入封装的axios接口地址
+      getList(params).then(res => {
+        if (res.code === 20000) {
+          this.data = res.data.RetList
+          this.visible = false
+        }
+      })
+    },
     // 选中的当前行
     getTemplateRow(index, row) {
       this.rowData = row
@@ -129,51 +141,29 @@ export default {
     // 新增
     addList() {
       this.visible = true
-      this.isAdd = true
-      this.isLook = false
     },
-    // 编辑
-    editList() {
-      if (JSON.stringify(this.rowData) === '{}') {
-        this.$message({
-          type: 'error',
-          message: '请选择一条数据'
-        })
-        return
-      }
-      this.visible = true
-      this.isAdd = false
-      this.isLook = false
+    // 获取子组件传来的弹窗状态
+    updateVisible(code) {
+      console.log('code', code)
+      this.visible = code
     },
-    // 查看
-    watch() {
-      if (JSON.stringify(this.rowData) === '{}') {
-        this.$message({
-          type: 'error',
-          message: '请选择一条数据'
-        })
-        return
-      }
-      this.visible = true
-      this.isAdd = false
-      this.isLook = true
-    },
-    // 删除
-    deleteItem() {
-      if (JSON.stringify(this.rowData) === '{}') {
-        this.$message({
-          type: 'error',
-          message: '请选择一条数据'
-        })
-        return
-      }
-      this.$confirm('确认删除该记录吗?', '提示', {
-        type: 'warning'
-      }).then(() => {
-        this.$message({
-          type: 'success',
-          message: '删除成功'
-        })
+    // 子组件点击保存
+    saveList() {
+      this.$refs['addRef'].$refs['ruleForm'].validate((valid) => {
+        if (valid) {
+          addList(this.$refs['addRef'].ruleForm).then(res => {
+            if (res) {
+              this.$message({
+                type: 'success',
+                message: res.data.message
+              })
+            }
+            const params = {
+              id: '001'
+            }
+            this.initData(params)
+          })
+        }
       })
     }
   }
