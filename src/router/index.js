@@ -169,6 +169,12 @@ export const constantRoutes = [
             name: 'DialogOne',
             component: () => import('@/views/template/Dialog/DialogOne/index'),
             meta: { title: '一层弹窗' }
+          },
+          {
+            path: 'dialogmore',
+            name: 'DialogMore',
+            component: () => import('@/views/template/Dialog/DialogMore/index'),
+            meta: { title: '多层弹窗' }
           }
         ]
       }

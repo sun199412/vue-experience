@@ -412,7 +412,7 @@ const projectType = ['城市', '农村', '花园', '庄园']
 
 export default [
   {
-    url: '/template/table/list',
+    url: '/template/table/list', // 查询列表
     type: 'post',
     response: config => {
       if (JSON.stringify(obj) === '{}') {
@@ -422,8 +422,33 @@ export default [
             RetList: list
           }
         }
-      } else {
+      } else if (obj.type === 'add') {
         list.push(obj)
+        obj = {}
+        return {
+          code: 20000,
+          data: {
+            RetList: list
+          }
+        }
+      } else if (obj.type === 'edit') {
+        list.forEach(item => {
+          if (obj.id === item.id) {
+            item = obj
+          }
+        })
+        return {
+          code: 20000,
+          data: {
+            RetList: list
+          }
+        }
+      } else {
+        list.forEach((item, index) => {
+          if (obj.id === item.id) {
+            list.splice(index, 1)
+          }
+        })
         return {
           code: 20000,
           data: {
@@ -434,7 +459,7 @@ export default [
     }
   },
   {
-    url: '/template/table/pagination',
+    url: '/template/table/pagination', // 查询分页的列表
     type: 'post',
     response: config => {
       return {
@@ -449,7 +474,7 @@ export default [
     }
   },
   {
-    url: '/template/dic/project',
+    url: '/template/dic/project', // 查询项目类别
     type: 'post',
     response: config => {
       console.log('config', config.body)
@@ -463,7 +488,7 @@ export default [
     }
   },
   {
-    url: '/template/dic/state',
+    url: '/template/dic/state', // 查询形象进度
     type: 'post',
     response: config => {
       return {
@@ -476,7 +501,7 @@ export default [
     }
   },
   {
-    url: '/template/table/add',
+    url: '/template/table/add', // 增加列表
     type: 'post',
     response: config => {
       console.log(config.query)
@@ -491,10 +516,59 @@ export default [
       obj.begainDate = new Date()
       obj.endDate = new Date()
       obj.id = Math.random()
+      obj.type = 'add'
       return {
         code: 20000,
         data: {
           message: '新增成功'
+        }
+      }
+    }
+  },
+  {
+    url: '/template/table/detail', // 查询详情
+    type: 'post',
+    response: config => {
+      let result = {}
+      list.forEach(item => {
+        if (item.id === config.query.id) {
+          result = item
+        }
+      })
+      return {
+        code: 20000,
+        data: {
+          detailMessage: result
+        }
+      }
+    }
+  },
+  {
+    url: '/template/table/edit', // 编辑列表保存
+    type: 'post',
+    response: config => {
+      console.log(config.query)
+      obj = config.query
+      obj.type = 'edit'
+      return {
+        code: 20000,
+        data: {
+          message: '编辑成功'
+        }
+      }
+    }
+  },
+  {
+    url: '/template/table/delete', // 删除
+    type: 'post',
+    response: config => {
+      console.log(config.query)
+      obj = config.query
+      obj.type = 'delete'
+      return {
+        code: 20000,
+        data: {
+          message: '删除成功'
         }
       }
     }
