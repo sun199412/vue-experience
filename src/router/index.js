@@ -157,6 +157,20 @@ export const constantRoutes = [
             meta: { title: '多子组件校验和watch的使用' }
           }
         ]
+      },
+      {
+        path: 'dialog',
+        name: 'Dialog',
+        component: () => import('@/views/template/Dialog'),
+        meta: { title: '弹窗', icon: 'tree' },
+        children: [
+          {
+            path: 'dialogone',
+            name: 'DialogOne',
+            component: () => import('@/views/template/Dialog/DialogOne/index'),
+            meta: { title: '一层弹窗' }
+          },
+        ]
       }
     ]
   },
