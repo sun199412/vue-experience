@@ -129,6 +129,18 @@ export const constantRoutes = [
             name: 'Pagination2',
             component: () => import('@/views/template/Other/Pagination2'),
             meta: { title: '后端分页' }
+          },
+          {
+            path: 'layoutone',
+            name: 'LayoutOne',
+            component: () => import('@/views/template/Other/LayoutOne'),
+            meta: { title: '表单单行展示' }
+          },
+          {
+            path: 'layouttwo',
+            name: 'LayoutTwo',
+            component: () => import('@/views/template/Other/LayoutTwo'),
+            meta: { title: '表单两行展示' }
           }
         ]
       },
@@ -155,6 +167,20 @@ export const constantRoutes = [
             name: 'MoreKidsCheck',
             component: () => import('@/views/template/Check/MoreKidsCheck/index'),
             meta: { title: '多子组件校验和watch的使用' }
+          }
+        ]
+      },
+      {
+        path: 'tree',
+        name: 'Tree',
+        component: () => import('@/views/template/Tree'),
+        meta: { title: '树', icon: 'tree' },
+        children: [
+          {
+            path: 'nochildtree',
+            name: 'NoChildTree',
+            component: () => import('@/views/template/Tree/NoChildTree/index'),
+            meta: { title: '无子节点树' }
           }
         ]
       },

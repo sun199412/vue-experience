@@ -841,3 +841,15 @@ childrenTwo.vue里:
     this.initData(params)
   }
 ```
+
+## [单层弹窗](https://github.com/sun199412/vue-experience/blob/master/src/views/template/Dialog/DialogOne/index.vue)
+
+1. 一个普通的单层弹框，将校验放在了父组件进行
+
+## [多层弹窗](https://github.com/sun199412/vue-experience/blob/master/src/views/template/Dialog/DialogMore/index.vue)
+
+1. 多层弹框，点击新增弹窗第一层，点击汇水面积弹出第二层
+
+## [表单单行展示](https://github.com/sun199412/vue-experience/blob/master/src/views/template/Other/LayoutOne.vue)
+
+## [表单两行展示](https://github.com/sun199412/vue-experience/blob/master/src/views/template/Other/LayoutTwo.vue)

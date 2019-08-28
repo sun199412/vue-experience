@@ -2,7 +2,7 @@
   <div class="body">
     <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <span>单层弹窗</span>
+        <span>多层弹窗</span>
       </div>
       <div class="btnBox">
         <el-button type="primary" size="mini" @click="addList">新增</el-button>
