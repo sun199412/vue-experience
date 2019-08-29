@@ -225,6 +225,225 @@ const groupList = [
   }
 ]
 
+const orgList = [
+  {
+    'enumKey': '470000',
+    'enumName': '重庆农村商业银行北部新区支行',
+    'isLeaf': '1',
+    'parentEnumKey': '01'
+  },
+  {
+    'enumKey': '250000',
+    'enumName': '重庆农村商业银行垫江支行',
+    'isLeaf': '1',
+    'parentEnumKey': '01'
+  },
+  {
+    'enumKey': '160000',
+    'enumName': '重庆农村商业银行合川支行',
+    'isLeaf': '1',
+    'parentEnumKey': '01'
+  },
+  {
+    'enumKey': '290000',
+    'enumName': '重庆农村商业银行万州支行',
+    'isLeaf': '1',
+    'parentEnumKey': '01'
+  },
+  {
+    'enumKey': '470028',
+    'enumName': '重庆农村商业银行北部新区支行综合部',
+    'isLeaf': '0',
+    'parentEnumKey': '470000'
+  },
+  {
+    'enumKey': '470013',
+    'enumName': '重庆农村商业银行北部新区支行农业及个人业务部',
+    'isLeaf': '0',
+    'parentEnumKey': '470000'
+  },
+  {
+    'enumKey': '470022',
+    'enumName': '重庆农村商业银行北部新区支行风险管理部',
+    'isLeaf': '0',
+    'parentEnumKey': '470000'
+  },
+  {
+    'enumKey': '470010',
+    'enumName': '重庆农村商业银行北部新区支行领导班子',
+    'isLeaf': '0',
+    'parentEnumKey': '470000'
+  },
+  {
+    'enumKey': '470023',
+    'enumName': '重庆农村商业银行北部新区支行公司会计财务部',
+    'isLeaf': '0',
+    'parentEnumKey': '470000'
+  },
+  {
+    'enumKey': '250501',
+    'enumName': '重庆农村商业银行垫江支行高安分理处',
+    'isLeaf': '1',
+    'parentEnumKey': '250000'
+  },
+  {
+    'enumKey': '250302',
+    'enumName': '重庆农村商业银行垫江支行武安分理处',
+    'isLeaf': '0',
+    'parentEnumKey': '250000'
+  },
+  {
+    'enumKey': '250304',
+    'enumName': '重庆农村商业银行垫江支行曹回分理处',
+    'isLeaf': '0',
+    'parentEnumKey': '250000'
+  },
+  {
+    'enumKey': '251001',
+    'enumName': '重庆农村商业银行垫江支行平山分理处',
+    'isLeaf': '1',
+    'parentEnumKey': '250000'
+  },
+  {
+    'enumKey': '250701',
+    'enumName': '重庆农村商业银行垫江支行澄溪分理处',
+    'isLeaf': '1',
+    'parentEnumKey': '250000'
+  },
+  {
+    'enumKey': '250503',
+    'enumName': '重庆农村商业银行垫江支行顺河街分理处',
+    'isLeaf': '0',
+    'parentEnumKey': '250501'
+  },
+  {
+    'enumKey': '250504',
+    'enumName': '重庆农村商业银行垫江支行福安分理处',
+    'isLeaf': '0',
+    'parentEnumKey': '250501'
+  },
+  {
+    'enumKey': '250505',
+    'enumName': '重庆农村商业银行垫江支行跳石分理处',
+    'isLeaf': '0',
+    'parentEnumKey': '250501'
+  },
+  {
+    'enumKey': '251005',
+    'enumName': '重庆农村商业银行垫江支行界峰分理处',
+    'isLeaf': '0',
+    'parentEnumKey': '251001'
+  },
+  {
+    'enumKey': '250704',
+    'enumName': '重庆农村商业银行垫江支行望月分理处',
+    'isLeaf': '0',
+    'parentEnumKey': '250701'
+  },
+  {
+    'enumKey': '160012',
+    'enumName': '重庆农村商业银行合川支行公司业务部',
+    'isLeaf': '0',
+    'parentEnumKey': '160000'
+  },
+  {
+    'enumKey': '161501',
+    'enumName': '重庆农村商业银行合川支行公司三庙分理处',
+    'isLeaf': '0',
+    'parentEnumKey': '160000'
+  },
+  {
+    'enumKey': '160209',
+    'enumName': '重庆农村商业银行合川支行东津沱支行',
+    'isLeaf': '0',
+    'parentEnumKey': '160000'
+  },
+  {
+    'enumKey': '160101',
+    'enumName': '重庆农村商业银行合川支行营业部',
+    'isLeaf': '0',
+    'parentEnumKey': '160000'
+  },
+  {
+    'enumKey': '160210',
+    'enumName': '重庆农村商业银行合川支行江上城分理处',
+    'isLeaf': '0',
+    'parentEnumKey': '160000'
+  },
+  {
+    'enumKey': '293201',
+    'enumName': '重庆农村商业银行万州余家支行',
+    'isLeaf': '1',
+    'parentEnumKey': '290000'
+  },
+  {
+    'enumKey': '290901',
+    'enumName': '重庆农村商业银行万州凉风支行',
+    'isLeaf': '1',
+    'parentEnumKey': '290000'
+  },
+  {
+    'enumKey': '292004',
+    'enumName': '重庆农村商业银行万州钟鼓楼支行',
+    'isLeaf': '1',
+    'parentEnumKey': '290000'
+  },
+  {
+    'enumKey': '290036',
+    'enumName': '重庆农村商业银行万州支行个人贷款中心',
+    'isLeaf': '0',
+    'parentEnumKey': '290000'
+  },
+  {
+    'enumKey': '290101',
+    'enumName': '重庆农村商业银行万州支行营业部',
+    'isLeaf': '0',
+    'parentEnumKey': '290000'
+  },
+  {
+    'enumKey': '293302',
+    'enumName': '重庆农村商业银行万州支行稍加分理处',
+    'isLeaf': '0',
+    'parentEnumKey': '293201'
+  },
+  {
+    'enumKey': '293401',
+    'enumName': '重庆农村商业银行万州支行后山分理处',
+    'isLeaf': '0',
+    'parentEnumKey': '293201'
+  },
+  {
+    'enumKey': '293501',
+    'enumName': '重庆农村商业银行万州支行单子分理处',
+    'isLeaf': '0',
+    'parentEnumKey': '293201'
+  },
+  {
+    'enumKey': '293202',
+    'enumName': '重庆农村商业银行万州支行五一分理处',
+    'isLeaf': '0',
+    'parentEnumKey': '293201'
+  },
+  {
+    'enumKey': '290903',
+    'enumName': '重庆农村商业银行万州支行河口分理处',
+    'isLeaf': '0',
+    'parentEnumKey': '290901'
+  },
+  {
+    'enumKey': '291001',
+    'enumName': '重庆农村商业银行万州支行甘林分理处',
+    'isLeaf': '0',
+    'parentEnumKey': '290901'
+  },
+  {
+    'enumKey': '291101',
+    'enumName': '重庆农村商业银行万州支行竹山分理处',
+    'isLeaf': '0',
+    'parentEnumKey': '290901'
+  }
+]
+
 export default [
   {
     url: '/template/tree/group', // 查询组织树
@@ -234,6 +453,24 @@ export default [
         code: 20000,
         data: {
           RetList: groupList
+        }
+      }
+    }
+  },
+  {
+    url: '/template/tree/org', // 查询机构树
+    type: 'post',
+    response: config => {
+      const arr = []
+      orgList.forEach(item => {
+        if (item.parentEnumKey === config.query.parentEnumKey) {
+          arr.push(item)
+        }
+      })
+      return {
+        code: 20000,
+        data: {
+          RetList: arr
         }
       }
     }

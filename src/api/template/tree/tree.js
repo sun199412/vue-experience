@@ -7,3 +7,12 @@ export function getGroupList(params) {
     params
   })
 }
+
+// 查询组织树
+export function getOrgList(params) {
+  return request({
+    url: '/template/tree/org',
+    method: 'post',
+    params
+  })
+}

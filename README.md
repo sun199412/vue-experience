@@ -377,7 +377,7 @@ npm run build:prod
   }
 ```
 
-## [表格自定义校验](https://github.com/sun199412/vue-experience/blob/master/src/views/template/Table/CustomCheckTable.vue)
+## [表格自定义校验](https://github.com/sun199412/vue-experience/blob/master/src/views/template/Check/CustomCheckTable.vue)
 
 1. 通过给表单加入blur方法，来校验并修改值
 ```
@@ -853,3 +853,112 @@ childrenTwo.vue里:
 ## [表单单行展示](https://github.com/sun199412/vue-experience/blob/master/src/views/template/Other/LayoutOne.vue)
 
 ## [表单两行展示](https://github.com/sun199412/vue-experience/blob/master/src/views/template/Other/LayoutTwo.vue)
+
+## [普通的树节点](https://github.com/sun199412/vue-experience/blob/master/src/views/template/Tree/NoChildTree/index.vue)
+
+1. 这是一个普通的树节点展示，通过绑定props定义展示字段来展示树，用node-click方法获取点击的树节点数据
+```
+  <el-tree
+    :data="groupList"
+    :props="defaultProps"
+    @node-click="handleNodeClick"
+  />
+
+  data() {
+    return {
+      groupList: [], // 数据源
+      defaultProps: { // 配置项
+        children: 'children',
+        label: 'groupNm'
+      },
+      treeRowData: {} // 树选中的数据
+    }
+  },
+
+  // 点击树节点
+  handleNodeClick(data) {
+    this.treeRowData = data
+  },
+```
+
+## [异步树](https://github.com/sun199412/vue-experience/blob/master/src/views/template/Tree/AsyncTree/index.vue)
+
+1. 异步树就是每个叶子节点点击调一次接口，通过props配置节点数据，lazy属性实现懒加载
+```
+  <el-tree
+    :props="defaultProps"
+    node-key="_id"
+    highlight-current
+    lazy
+    :load="loadNode"
+    @node-click="handleNodeClick"
+  />
+
+  data() {
+    return {
+      data: [], // 数据源
+      defaultProps: { // 配置项
+        children: 'children',
+        label: 'enumName',
+        isLeaf: 'leaf'
+      },
+      treeRowData: {} // 树选中的数据
+    }
+  },
+```
+
+2. 绑定load属性，实现懒加载，通过判断节点中的level,如果是0则调初始化接口，如果大于1则调异步接口，传参数的时候注意，要父节点=当前的子节点(parentEnumKey = node.data.enumKey),再接口返回时，还要判断是否为叶子节点(leaf), 如果leaf为false，则为叶子节点，true则不为叶子节点，继续掉接口
+```
+  // 异步树叶子节点懒加载逻辑
+  loadNode(node, resolve) {
+    // 一级节点处理
+    if (node.level === 0) {
+      this.requestTree(resolve)
+    }
+    // 其余节点处理
+    if (node.level >= 1) {
+      // 注意！把resolve传到你自己的异步中去
+      this.getIndex(node, resolve)
+    }
+  },
+
+  // 首次加载一级节点数据函数
+  requestTree(resolve) {
+    const params = {
+      parentEnumKey: '01'
+    }
+    getOrgList(params).then(res => {
+      if (res) {
+        this.data = res.data.RetList
+        this.data.forEach(item => {
+          if (item.isLeaf === '1') {
+            item.leaf = false // 为叶子节点
+          } else {
+            item.leaf = true // 不为叶子节点
+          }
+        })
+        resolve(this.data)
+      }
+    })
+  },
+
+  // 异步加载叶子节点数据函数
+  getIndex(node, resolve) {
+    const params = {
+      parentEnumKey: node.data.enumKey
+    }
+    getOrgList(params).then(res => {
+      if (res) {
+        this.data = res.data.RetList
+        this.data.forEach(item => {
+          if (item.isLeaf === '1') {
+            item.leaf = false // 为叶子节点
+          } else {
+            item.leaf = true // 不为叶子节点
+          }
+        })
+        resolve(this.data)
+      }
+    })
+  },
+```

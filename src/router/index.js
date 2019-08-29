@@ -180,7 +180,13 @@ export const constantRoutes = [
             path: 'nochildtree',
             name: 'NoChildTree',
             component: () => import('@/views/template/Tree/NoChildTree/index'),
-            meta: { title: '无子节点树' }
+            meta: { title: '普通树' }
+          },
+          {
+            path: 'asynctree',
+            name: 'AsyncTree',
+            component: () => import('@/views/template/Tree/AsyncTree/index'),
+            meta: { title: '异步树' }
           }
         ]
       },
