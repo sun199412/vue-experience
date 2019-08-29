@@ -141,6 +141,12 @@ export const constantRoutes = [
             name: 'LayoutTwo',
             component: () => import('@/views/template/Other/LayoutTwo'),
             meta: { title: '表单两行展示' }
+          },
+          {
+            path: 'echartsdemo',
+            name: 'EchartsDemo',
+            component: () => import('@/views/template/Other/Echarts'),
+            meta: { title: 'echarts' }
           }
         ]
       },
