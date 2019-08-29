@@ -5,6 +5,7 @@ import user from './user'
 import table from './table'
 import form from './template/form/form'
 import tree from './template/tree/tree'
+import charts from './template/charts/charts'
 import radiotable from './template/table/table'
 
 const mocks = [
@@ -12,7 +13,8 @@ const mocks = [
   ...table,
   ...radiotable,
   ...form,
-  ...tree
+  ...tree,
+  ...charts
 ]
 
 // for front mock
