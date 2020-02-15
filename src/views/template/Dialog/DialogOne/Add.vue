@@ -67,7 +67,9 @@
 
 <script>
 export default {
-  props: ['visible'],
+  props: {
+    'visible': Boolean
+  },
   data() {
     return {
       ruleForm: {

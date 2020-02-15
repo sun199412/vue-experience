@@ -25,7 +25,9 @@
 <script>
 import { getOrgList } from '@/api/template/tree/tree.js'
 export default {
-  props: ['visible'],
+  props: {
+    'visible': Boolean
+  },
   data() {
     return {
       data: [], // 数据源

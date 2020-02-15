@@ -86,7 +86,9 @@ export default {
   components: {
     More
   },
-  props: ['visible'],
+  props: {
+    'visible': Boolean
+  },
   data() {
     return {
       moreStatus: false, // 弹窗

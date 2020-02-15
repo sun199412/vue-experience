@@ -326,7 +326,14 @@
 import { getProject, getState } from '@/api/template/table/table.js'
 export default {
   name: 'Editable',
-  props: ['list'],
+  props: {
+    'list': {
+      type: Array,
+      default: function() {
+        return []
+      }
+    }
+  },
   data() {
     return {
       formData: {

@@ -14,7 +14,14 @@ export default {
   components: {
     'v-chart': ECharts
   },
-  props: ['data'],
+  props: {
+    'data': {
+      type: Array,
+      default: function() {
+        return []
+      }
+    }
+  },
   data() {
     return {
       option: {

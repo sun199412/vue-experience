@@ -22,7 +22,9 @@
 <script>
 import { getGroupList } from '@/api/template/tree/tree.js'
 export default {
-  props: ['visible'],
+  props: {
+    'visible': Boolean
+  },
   data() {
     return {
       groupList: [], // 数据源
@@ -44,7 +46,7 @@ export default {
   methods: {
     // 点击树节点
     handleNodeClick(data) {
-	    this.treeRowData = data
+      this.treeRowData = data
     },
     // 关闭弹窗
     modalClose() {

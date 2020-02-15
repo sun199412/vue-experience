@@ -147,6 +147,12 @@ export const constantRoutes = [
             name: 'EchartsDemo',
             component: () => import('@/views/template/Other/Echarts'),
             meta: { title: 'echarts' }
+          },
+          {
+            path: 'echartsmap',
+            name: 'EchartsMap',
+            component: () => import('@/views/template/Other/Echarts/Map'),
+            meta: { title: 'echarts地图' }
           }
         ]
       },
