@@ -39,3 +39,12 @@ export function addList(params) {
     params
   })
 }
+// 获取折叠表格数据
+export function getTableTree(params) {
+  return request({
+    url: 'https://www.fastmock.site/mock/44bfa3c4c962c40683ec9bec9c38a567/experience/api/table-tree',
+    method: 'get',
+    params
+  })
+}
+
