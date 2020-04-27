@@ -33,13 +33,13 @@ import Layout from '@/layout'
 export const constantRoutes = [
   {
     path: '/login',
-    component: () => import('@/views/login/index'),
+    component: (resolve) => require(['@/views/login/index'], resolve),
     hidden: true
   },
 
   {
     path: '/404',
-    component: () => import('@/views/404'),
+    component: (resolve) => require(['@/views/404'], resolve),
     hidden: true
   },
 
@@ -50,7 +50,7 @@ export const constantRoutes = [
     children: [{
       path: 'dashboard',
       name: 'Dashboard',
-      component: () => import('@/views/dashboard/index'),
+      component: (resolve) => require(['@/views/dashboard/index'], resolve),
       meta: { title: 'Dashboard', icon: 'dashboard' }
     }]
   },
@@ -65,99 +65,105 @@ export const constantRoutes = [
       {
         path: 'table',
         name: 'Table',
-        component: () => import('@/views/template/Table'),
+        component: (resolve) => require(['@/views/template/Table'], resolve),
         meta: { title: '表格', icon: 'table' },
         children: [
           {
             path: 'notgovuextable',
             name: 'NotGoVuexTable',
-            component: () => import('@/views/template/Table/NotGoVuexTable'),
+            component: (resolve) => require(['@/views/template/Table/NotGoVuexTable'], resolve),
             meta: { title: 'table交互不走vuex' }
           },
           {
             path: 'govuextable',
             name: 'GoVuexTable',
-            component: () => import('@/views/template/Table/GoVuexTable'),
+            component: (resolve) => require(['@/views/template/Table/GoVuexTable'], resolve),
             meta: { title: 'table交互走vuex' }
           },
           {
             path: 'radiodeletetable',
             name: 'RadioDeleteTable',
-            component: () => import('@/views/template/Table/RadioDeleteTable'),
+            component: (resolve) => require(['@/views/template/Table/RadioDeleteTable'], resolve),
             meta: { title: 'table单选删除' }
           },
           {
             path: 'checkboxdeletetable',
             name: 'CheckboxDeleteTable',
-            component: () => import('@/views/template/Table/CheckboxDeleteTable'),
+            component: (resolve) => require(['@/views/template/Table/CheckboxDeleteTable'], resolve),
             meta: { title: 'table多选删除' }
           },
           {
             path: 'editable',
             name: 'Editable',
-            component: () => import('@/views/template/Table/Editable'),
+            component: (resolve) => require(['@/views/template/Table/Editable'], resolve),
             meta: { title: '可编辑表格校验' }
           },
           {
             path: 'foldingtable',
             name: 'FoldingTable',
-            component: () => import('@/views/template/Table/FoldingTable'),
+            component: (resolve) => require(['@/views/template/Table/FoldingTable'], resolve),
             meta: { title: '可折叠的树table' }
+          },
+          {
+            path: 'comprehensivetable',
+            name: 'ComprehensiveTable',
+            component: (resolve) => require(['@/views/template/Table/ComprehensiveApplicationTable'], resolve),
+            meta: { title: 'table综合练习' }
           }
         ]
       },
       {
         path: 'other',
         name: 'Other',
-        component: () => import('@/views/template/Other'),
+        component: (resolve) => require(['@/views/template/Other'], resolve),
         meta: { title: '其他', icon: 'eye-open' },
         children: [
           {
             path: 'computedtoparams',
             name: 'ComputedToParams',
-            component: () => import('@/views/template/Other/ComputedToParams'),
+            component: (resolve) => require(['@/views/template/Other/ComputedToParams'], resolve),
             meta: { title: '计算属性传参数' }
           },
           {
             path: 'selectdisabled',
             name: 'SelectDisabled',
-            component: () => import('@/views/template/Other/SelectDisabled'),
+            component: (resolve) => require(['@/views/template/Other/SelectDisabled'], resolve),
             meta: { title: '下拉框禁止选' }
           },
           {
             path: 'pagination',
             name: 'Pagination',
-            component: () => import('@/views/template/Other/Pagination'),
+            component: (resolve) => require(['@/views/template/Other/Pagination'], resolve),
             meta: { title: '前端分页' }
           },
           {
             path: 'pagination2',
             name: 'Pagination2',
-            component: () => import('@/views/template/Other/Pagination2'),
+            component: (resolve) => require(['@/views/template/Other/Pagination2'], resolve),
             meta: { title: '后端分页' }
           },
           {
             path: 'layoutone',
             name: 'LayoutOne',
-            component: () => import('@/views/template/Other/LayoutOne'),
+            component: (resolve) => require(['@/views/template/Other/LayoutOne'], resolve),
             meta: { title: '表单单行展示' }
           },
           {
             path: 'layouttwo',
             name: 'LayoutTwo',
-            component: () => import('@/views/template/Other/LayoutTwo'),
+            component: (resolve) => require(['@/views/template/Other/LayoutTwo'], resolve),
             meta: { title: '表单两行展示' }
           },
           {
             path: 'echartsdemo',
             name: 'EchartsDemo',
-            component: () => import('@/views/template/Other/Echarts'),
+            component: (resolve) => require(['@/views/template/Other/Echarts'], resolve),
             meta: { title: 'echarts' }
           },
           {
             path: 'echartsmap',
             name: 'EchartsMap',
-            component: () => import('@/views/template/Other/Echarts/Map'),
+            component: (resolve) => require(['@/views/template/Other/Echarts/Map'], resolve),
             meta: { title: 'echarts地图' }
           }
         ]
@@ -165,25 +171,25 @@ export const constantRoutes = [
       {
         path: 'check',
         name: 'Check',
-        component: () => import('@/views/template/Check'),
+        component: (resolve) => require(['@/views/template/Check'], resolve),
         meta: { title: '校验', icon: 'form' },
         children: [
           {
             path: 'customchecktable',
             name: 'CustomCheckTable',
-            component: () => import('@/views/template/Check/CustomCheckTable'),
+            component: (resolve) => require(['@/views/template/Check/CustomCheckTable'], resolve),
             meta: { title: '表格自定义校验' }
           },
           {
             path: 'customchecktable2',
             name: 'CustomCheckTable2',
-            component: () => import('@/views/template/Check/CustomCheckTable2'),
+            component: (resolve) => require(['@/views/template/Check/CustomCheckTable2'], resolve),
             meta: { title: '表格自定义校验2' }
           },
           {
             path: 'morekidscheck',
             name: 'MoreKidsCheck',
-            component: () => import('@/views/template/Check/MoreKidsCheck/index'),
+            component: (resolve) => require(['@/views/template/Check/MoreKidsCheck/index'], resolve),
             meta: { title: '多子组件校验和watch的使用' }
           }
         ]
@@ -191,19 +197,19 @@ export const constantRoutes = [
       {
         path: 'tree',
         name: 'Tree',
-        component: () => import('@/views/template/Tree'),
+        component: (resolve) => require(['@/views/template/Tree'], resolve),
         meta: { title: '树', icon: 'tree' },
         children: [
           {
             path: 'nochildtree',
             name: 'NoChildTree',
-            component: () => import('@/views/template/Tree/NoChildTree/index'),
+            component: (resolve) => require(['@/views/template/Tree/NoChildTree/index'], resolve),
             meta: { title: '普通树' }
           },
           {
             path: 'asynctree',
             name: 'AsyncTree',
-            component: () => import('@/views/template/Tree/AsyncTree/index'),
+            component: (resolve) => require(['@/views/template/Tree/AsyncTree/index'], resolve),
             meta: { title: '异步树' }
           }
         ]
@@ -211,19 +217,19 @@ export const constantRoutes = [
       {
         path: 'dialog',
         name: 'Dialog',
-        component: () => import('@/views/template/Dialog'),
+        component: (resolve) => require(['@/views/template/Dialog'], resolve),
         meta: { title: '弹窗', icon: 'tree' },
         children: [
           {
             path: 'dialogone',
             name: 'DialogOne',
-            component: () => import('@/views/template/Dialog/DialogOne/index'),
+            component: (resolve) => require(['@/views/template/Dialog/DialogOne/index'], resolve),
             meta: { title: '一层弹窗' }
           },
           {
             path: 'dialogmore',
             name: 'DialogMore',
-            component: () => import('@/views/template/Dialog/DialogMore/index'),
+            component: (resolve) => require(['@/views/template/Dialog/DialogMore/index'], resolve),
             meta: { title: '多层弹窗' }
           }
         ]
@@ -238,7 +244,7 @@ export const constantRoutes = [
       {
         path: 'index',
         name: 'Form',
-        component: () => import('@/views/form/index'),
+        component: (resolve) => require(['@/views/form/index'], resolve),
         meta: { title: 'Form', icon: 'form' }
       }
     ]
@@ -256,31 +262,31 @@ export const constantRoutes = [
     children: [
       {
         path: 'menu1',
-        component: () => import('@/views/nested/menu1/index'), // Parent router-view
+        component: (resolve) => require(['@/views/nested/menu1/index'], resolve), // Parent router-view
         name: 'Menu1',
         meta: { title: 'Menu1' },
         children: [
           {
             path: 'menu1-1',
-            component: () => import('@/views/nested/menu1/menu1-1'),
+            component: (resolve) => require(['@/views/nested/menu1/menu1-1'], resolve),
             name: 'Menu1-1',
             meta: { title: 'Menu1-1' }
           },
           {
             path: 'menu1-2',
-            component: () => import('@/views/nested/menu1/menu1-2'),
+            component: (resolve) => require(['@/views/nested/menu1/menu1-2'], resolve),
             name: 'Menu1-2',
             meta: { title: 'Menu1-2' },
             children: [
               {
                 path: 'menu1-2-1',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
+                component: (resolve) => require(['@/views/nested/menu1/menu1-2/menu1-2-1'], resolve),
                 name: 'Menu1-2-1',
                 meta: { title: 'Menu1-2-1' }
               },
               {
                 path: 'menu1-2-2',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
+                component: (resolve) => require(['@/views/nested/menu1/menu1-2/menu1-2-2'], resolve),
                 name: 'Menu1-2-2',
                 meta: { title: 'Menu1-2-2' }
               }
@@ -288,7 +294,7 @@ export const constantRoutes = [
           },
           {
             path: 'menu1-3',
-            component: () => import('@/views/nested/menu1/menu1-3'),
+            component: (resolve) => require(['@/views/nested/menu1/menu1-3'], resolve),
             name: 'Menu1-3',
             meta: { title: 'Menu1-3' }
           }
@@ -296,7 +302,7 @@ export const constantRoutes = [
       },
       {
         path: 'menu2',
-        component: () => import('@/views/nested/menu2/index'),
+        component: (resolve) => require(['@/views/nested/menu2/index'], resolve),
         meta: { title: 'menu2' }
       }
     ]
